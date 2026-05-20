@@ -17,13 +17,20 @@ const { title = 'Jerry Chen', description = 'Personal site of Jerry Chen' } = As
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <script is:inline>
+      (() => {
+        const stored = localStorage.getItem('theme');
+        const dark = stored ? stored === 'dark' : true;
+        if (dark) document.documentElement.classList.add('dark');
+      })();
+    </script>
   </head>
-  <body class="bg-gray-900 text-white min-h-screen">
+  <body class="bg-white text-gray-900 dark:bg-gray-900 dark:text-white min-h-screen">
     <Nav />
     <main class="max-w-4xl mx-auto px-6 py-10">
       <slot />
     </main>
-    <footer class="max-w-4xl mx-auto px-6 py-8 text-sm text-gray-500 border-t border-gray-800 mt-10">
+    <footer class="max-w-4xl mx-auto px-6 py-8 text-sm text-gray-500 border-t border-gray-200 dark:border-gray-800 mt-10">
       © {new Date().getFullYear()} Jerry Chen
     </footer>
   </body>
