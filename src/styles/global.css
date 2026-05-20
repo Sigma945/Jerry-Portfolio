@@ -4,32 +4,41 @@
 
 :root {
   --bg: #ffffff;
-  --fg: #111827;
-  --muted: #4b5563;
-  --muted-2: #6b7280;
-  --border: #e5e7eb;
-  --border-strong: #d1d5db;
-  --surface: #f3f4f6;
-  --surface-hover: #e5e7eb;
-  --accent: #2563eb;
-  --accent-hover: #1d4ed8;
+  --fg: rgba(0, 0, 0, 0.92);
+  --muted: rgba(0, 0, 0, 0.60);
+  --muted-2: rgba(0, 0, 0, 0.38);
+  --border: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --surface: rgba(0, 0, 0, 0.04);
+  --surface-hover: rgba(0, 0, 0, 0.08);
+  --accent: #2563EB;
+  --accent-hover: #3B82F6;
   --accent-fg: #ffffff;
-  --nav-bg: rgb(255 255 255 / 0.8);
+  --nav-bg: rgba(255, 255, 255, 0.72);
+  --grid-color: transparent;
+
+  --font-sans: 'Geist', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 .dark {
-  --bg: #111827;
-  --fg: #ffffff;
-  --muted: #d1d5db;
-  --muted-2: #9ca3af;
-  --border: #1f2937;
-  --border-strong: #374151;
-  --surface: #1f2937;
-  --surface-hover: #374151;
-  --accent: #3b82f6;
-  --accent-hover: #2563eb;
+  --bg: #09090B;
+  --fg: rgba(255, 255, 255, 0.92);
+  --muted: rgba(255, 255, 255, 0.60);
+  --muted-2: rgba(255, 255, 255, 0.38);
+  --border: rgba(255, 255, 255, 0.06);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --surface: rgba(255, 255, 255, 0.04);
+  --surface-hover: rgba(255, 255, 255, 0.08);
+  --accent: #2563EB;
+  --accent-hover: #3B82F6;
   --accent-fg: #ffffff;
-  --nav-bg: rgb(17 24 39 / 0.8);
+  --nav-bg: rgba(9, 9, 11, 0.72);
+  --grid-color: rgba(255, 255, 255, 0.03);
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -40,9 +49,41 @@ html {
 body {
   background: var(--bg);
   color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.8;
+  font-weight: 400;
   min-height: 100vh;
+  position: relative;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: radial-gradient(ellipse at top, #000 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse at top, #000 30%, transparent 80%);
+}
+
+body > * {
+  position: relative;
+  z-index: 1;
 }
 
 a {
   color: inherit;
+}
+
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: var(--fg);
 }

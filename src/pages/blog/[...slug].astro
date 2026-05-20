@@ -26,30 +26,47 @@ const { Content } = await render(post);
 </BaseLayout>
 
 <style>
+  article {
+    max-width: 720px;
+  }
   article h1 {
-    font-size: 1.875rem;
+    font-size: 40px;
     font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
     margin: 0;
   }
   .date {
-    font-size: 0.875rem;
+    font-size: 13px;
+    font-family: var(--font-mono);
     color: var(--muted-2);
-    margin: 0.25rem 0 0;
+    margin: 16px 0 0;
+    letter-spacing: 0.02em;
   }
   .body {
-    margin-top: 1.5rem;
+    margin-top: 48px;
     color: var(--muted);
-    line-height: 1.7;
+    font-size: 18px;
+    line-height: 1.8;
+  }
+  .body :global(p) {
+    margin: 0;
   }
   .body :global(p + p) {
-    margin-top: 1rem;
+    margin-top: 24px;
   }
   .body :global(h2) {
     color: var(--fg);
-    font-size: 1.5rem;
-    margin-top: 2rem;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: 48px 0 16px;
   }
   .body :global(a) {
     color: var(--accent);
+    transition: opacity 0.2s ease;
+  }
+  .body :global(a):hover {
+    opacity: 0.7;
   }
 </style>

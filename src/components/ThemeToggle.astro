@@ -32,29 +32,34 @@
     position: relative;
     display: inline-flex;
     align-items: center;
-    width: 2.75rem;
-    height: 1.5rem;
+    width: 40px;
+    height: 22px;
     border: none;
     border-radius: 9999px;
-    background: var(--border-strong);
+    background: var(--surface-hover);
     cursor: pointer;
     padding: 0;
-    transition: background 0.2s;
+    transition: background 0.2s ease;
+  }
+  .toggle:hover {
+    background: var(--border-strong);
   }
   .toggle[aria-checked="true"] {
     background: var(--accent);
   }
+  .toggle[aria-checked="true"]:hover {
+    background: var(--accent-hover);
+  }
   .thumb {
     display: inline-block;
-    width: 1.25rem;
-    height: 1.25rem;
+    width: 16px;
+    height: 16px;
     background: #ffffff;
     border-radius: 9999px;
-    box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
-    transform: translateX(0.125rem);
-    transition: transform 0.2s;
+    transform: translateX(3px);
+    transition: transform 0.2s ease;
   }
   .toggle[aria-checked="true"] .thumb {
-    transform: translateX(1.375rem);
+    transform: translateX(21px);
   }
 </style>

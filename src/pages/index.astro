@@ -25,27 +25,42 @@ import { site } from '../site';
 
 <style>
   .hero {
-    padding-block: 2.5rem;
+    padding-top: 96px;
+    padding-bottom: 48px;
   }
   .hero h1 {
-    font-size: 3rem;
+    font-size: 72px;
     font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
     margin: 0;
   }
   .tagline {
-    margin-top: 1rem;
-    font-size: 1.125rem;
+    margin-top: 24px;
+    font-size: 20px;
     color: var(--muted);
+    letter-spacing: -0.01em;
   }
   .bio {
-    margin-top: 1.5rem;
-    max-width: 36rem;
+    margin-top: 24px;
+    max-width: 560px;
+    font-size: 16px;
+    line-height: 1.7;
     color: var(--muted-2);
   }
   .actions {
-    margin-top: 2rem;
+    margin-top: 40px;
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 12px;
+  }
+
+  @media (max-width: 640px) {
+    .hero {
+      padding-top: 64px;
+    }
+    .hero h1 {
+      font-size: 48px;
+    }
   }
 </style>

@@ -43,44 +43,55 @@ import { experience } from '../data/experience';
 
 <style>
   .prose {
+    max-width: 720px;
     color: var(--muted);
-    line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.8;
+  }
+  .prose p {
+    margin: 0;
   }
   .prose p + p {
-    margin-top: 1rem;
+    margin-top: 16px;
   }
   .section-divider {
-    margin: 3rem 0 1rem;
+    margin: 64px 0 24px;
     border: 0;
     border-top: 1px solid var(--border);
   }
   .section-title {
-    margin: 0 0 1rem;
-    font-size: 1.125rem;
-    font-weight: 700;
+    margin: 0 0 24px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
     color: var(--fg);
   }
   .table-wrap {
-    margin-top: 0;
     overflow-x: auto;
     border: 1px solid var(--border);
-    border-radius: 0.5rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02);
+  }
+  :global(:root:not(.dark)) .table-wrap {
+    background: rgba(0, 0, 0, 0.02);
   }
   .tech-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.875rem;
+    font-size: 14px;
   }
   .tech-table th,
   .tech-table td {
-    padding: 0.75rem 1rem;
+    padding: 14px 20px;
     text-align: left;
     border-bottom: 1px solid var(--border);
   }
   .tech-table thead th {
-    background: var(--surface);
-    color: var(--fg);
-    font-weight: 600;
+    color: var(--muted-2);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
   .tech-table tbody tr:last-child td {
     border-bottom: none;
@@ -88,7 +99,13 @@ import { experience } from '../data/experience';
   .tech-table tbody td {
     color: var(--muted);
   }
-  .tech-table tbody tr:hover td {
+  .tech-table tbody tr {
+    transition: background 0.2s ease;
+  }
+  .tech-table tbody tr:hover {
     background: var(--surface);
+  }
+  .tech-table tbody tr:hover td:first-child {
+    color: var(--fg);
   }
 </style>
