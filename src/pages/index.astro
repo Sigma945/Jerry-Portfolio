@@ -4,16 +4,62 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title="Jerry Chen — Home">
-  <section class="py-10">
-    <h1 class="text-5xl font-bold">Jerry Chen</h1>
-    <p class="mt-4 text-lg text-gray-700 dark:text-gray-300">Full-stack Developer</p>
-    <p class="mt-6 max-w-xl text-gray-600 dark:text-gray-400">
+  <section class="hero">
+    <h1>Jerry Chen</h1>
+    <p class="tagline">Full-stack Developer</p>
+    <p class="bio">
       我是一個專注於專案網站的開發者，喜歡用程式碼把想法變成可運作的成品。
     </p>
-
-    <div class="mt-8 flex flex-wrap gap-4">
-      <a href={`${base}/projects`} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">查看作品</a>
-      <a href={`${base}/resume`} class="px-4 py-2 border border-gray-400 dark:border-gray-600 rounded hover:bg-gray-100 dark:hover:bg-gray-800">我的履歷</a>
+    <div class="actions">
+      <a href={`${base}/projects`} class="btn btn-primary">查看作品</a>
+      <a href={`${base}/resume`} class="btn btn-ghost">我的履歷</a>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    padding-block: 2.5rem;
+  }
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .tagline {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+    color: var(--muted);
+  }
+  .bio {
+    margin-top: 1.5rem;
+    max-width: 36rem;
+    color: var(--muted-2);
+  }
+  .actions {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    text-decoration: none;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--accent-fg);
+  }
+  .btn-primary:hover {
+    background: var(--accent-hover);
+  }
+  .btn-ghost {
+    border: 1px solid var(--border-strong);
+    color: var(--fg);
+  }
+  .btn-ghost:hover {
+    background: var(--surface);
+  }
+</style>
