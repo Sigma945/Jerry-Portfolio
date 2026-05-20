@@ -15,15 +15,19 @@ const cls = `card ${interactive ? 'is-interactive' : ''} ${className}`.trim();
 
 <style>
   .card {
-    border: 1px solid var(--border-strong);
-    border-radius: 0.5rem;
-    padding: 1.25rem;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+  }
+  :global(:root:not(.dark)) .card {
+    background: rgba(0, 0, 0, 0.02);
   }
   .card.is-interactive {
-    transition: border-color 0.15s, background 0.15s;
+    transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
   }
   .card.is-interactive:hover {
-    border-color: var(--muted-2);
+    border-color: var(--border-strong);
+    transform: translateY(-2px);
   }
 </style>
