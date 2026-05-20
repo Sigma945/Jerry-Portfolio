@@ -1,0 +1,24 @@
+---
+const base = import.meta.env.BASE_URL;
+const url = (path: string) => `${base.replace(/\/$/, '')}${path}`;
+
+const links = [
+  { href: url('/'), label: 'Home' },
+  { href: url('/about'), label: 'About' },
+  { href: url('/projects'), label: 'Projects' },
+  { href: url('/blog'), label: 'Blog' },
+  { href: url('/experiments'), label: 'Experiments' },
+  { href: url('/resume'), label: 'Resume' },
+];
+---
+
+<nav class="border-b border-gray-800 bg-gray-900/80 backdrop-blur sticky top-0 z-10">
+  <div class="max-w-4xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+    <a href={url('/')} class="font-bold text-white">Jerry Chen</a>
+    <ul class="flex flex-wrap gap-5 text-sm text-gray-300">
+      {links.map(({ href, label }) => (
+        <li><a href={href} class="hover:text-white">{label}</a></li>
+      ))}
+    </ul>
+  </div>
+</nav>
