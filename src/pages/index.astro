@@ -1,17 +1,19 @@
 ---
-
+import BaseLayout from '../layouts/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title="Jerry Chen — Home">
+  <section class="py-10">
+    <h1 class="text-5xl font-bold">Jerry Chen</h1>
+    <p class="mt-4 text-lg text-gray-300">Full-stack Developer</p>
+    <p class="mt-6 max-w-xl text-gray-400">
+      我是一個專注於專案網站的開發者，喜歡用程式碼把想法變成可運作的成品。
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-4">
+      <a href={`${base}/projects`} class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">查看作品</a>
+      <a href={`${base}/resume`} class="px-4 py-2 border border-gray-600 rounded hover:bg-gray-800">我的履歷</a>
+    </div>
+  </section>
+</BaseLayout>
