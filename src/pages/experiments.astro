@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
 ---
 
 <BaseLayout title="Experiments — Jerry Chen">
@@ -7,7 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   <p class="lead">這裡放一些小實驗：互動元件、動畫、技術 demo。</p>
 
   <ul class="cards">
-    <li class="card">（待補）</li>
+    <Card as="li">（待補）</Card>
   </ul>
 </BaseLayout>
 
@@ -27,11 +28,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-  }
-  .card {
-    border: 1px solid var(--border);
-    border-radius: 0.375rem;
-    padding: 1rem;
     color: var(--muted);
   }
 </style>
