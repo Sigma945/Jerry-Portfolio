@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
@@ -11,8 +12,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       我是一個專注於專案網站的開發者，喜歡用程式碼把想法變成可運作的成品。
     </p>
     <div class="actions">
-      <a href={`${base}/projects`} class="btn btn-primary">查看作品</a>
-      <a href={`${base}/resume`} class="btn btn-ghost">我的履歷</a>
+      <Button href={`${base}/projects`} variant="primary">查看作品</Button>
+      <Button href={`${base}/resume`} variant="ghost">我的履歷</Button>
     </div>
   </section>
 </BaseLayout>
@@ -41,25 +42,5 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-  }
-  .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    text-decoration: none;
-    transition: background 0.15s, border-color 0.15s;
-  }
-  .btn-primary {
-    background: var(--accent);
-    color: var(--accent-fg);
-  }
-  .btn-primary:hover {
-    background: var(--accent-hover);
-  }
-  .btn-ghost {
-    border: 1px solid var(--border-strong);
-    color: var(--fg);
-  }
-  .btn-ghost:hover {
-    background: var(--surface);
   }
 </style>

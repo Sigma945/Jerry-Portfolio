@@ -1,0 +1,29 @@
+---
+interface Props {
+  as?: 'article' | 'li' | 'div';
+  interactive?: boolean;
+  class?: string;
+}
+
+const { as: Tag = 'div', interactive = false, class: className = '' } = Astro.props;
+const cls = `card ${interactive ? 'is-interactive' : ''} ${className}`.trim();
+---
+
+<Tag class={cls}>
+  <slot />
+</Tag>
+
+<style>
+  .card {
+    border: 1px solid var(--border-strong);
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    background: transparent;
+  }
+  .card.is-interactive {
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .card.is-interactive:hover {
+    border-color: var(--muted-2);
+  }
+</style>

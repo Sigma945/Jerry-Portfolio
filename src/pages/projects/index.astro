@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import Card from '../../components/Card.astro';
 
 const projects = await getCollection('projects');
 ---
@@ -10,7 +11,7 @@ const projects = await getCollection('projects');
 
   <div class="grid">
     {projects.map(project => (
-      <article class="card">
+      <Card as="article" interactive>
         <h2>{project.data.title}</h2>
         <p class="desc">{project.data.description}</p>
         {project.data.tech && (
@@ -21,7 +22,7 @@ const projects = await getCollection('projects');
         {project.data.link && (
           <a href={project.data.link} class="link">查看 →</a>
         )}
-      </article>
+      </Card>
     ))}
   </div>
 </BaseLayout>
@@ -42,16 +43,7 @@ const projects = await getCollection('projects');
       grid-template-columns: repeat(2, 1fr);
     }
   }
-  .card {
-    border: 1px solid var(--border-strong);
-    border-radius: 0.5rem;
-    padding: 1.25rem;
-    transition: border-color 0.15s;
-  }
-  .card:hover {
-    border-color: var(--muted-2);
-  }
-  .card h2 {
+  h2 {
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0;
