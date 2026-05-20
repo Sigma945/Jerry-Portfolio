@@ -1,16 +1,18 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import LangToggle from './LangToggle.astro';
+import { t, type TKey } from '../i18n';
 
 const base = import.meta.env.BASE_URL;
 const url = (path: string) => `${base.replace(/\/$/, '')}${path}`;
 
-const links = [
-  { href: url('/'), label: 'Home' },
-  { href: url('/about'), label: 'About' },
-  { href: url('/projects'), label: 'Projects' },
-  { href: url('/blog'), label: 'Blog' },
-  { href: url('/experiments'), label: 'Experiments' },
-  { href: url('/resume'), label: 'Resume' },
+const links: { href: string; key: TKey }[] = [
+  { href: url('/'), key: 'nav.home' },
+  { href: url('/about'), key: 'nav.about' },
+  { href: url('/projects'), key: 'nav.projects' },
+  { href: url('/blog'), key: 'nav.blog' },
+  { href: url('/experiments'), key: 'nav.experiments' },
+  { href: url('/resume'), key: 'nav.resume' },
 ];
 ---
 
@@ -19,12 +21,13 @@ const links = [
     <a href={url('/')} class="brand">Jerry Chen</a>
 
     <ul class="nav-links desktop">
-      {links.map(({ href, label }) => (
-        <li><a href={href}>{label}</a></li>
+      {links.map(({ href, key }) => (
+        <li><a href={href} data-i18n={key}>{t(key)}</a></li>
       ))}
     </ul>
 
     <div class="nav-actions">
+      <LangToggle />
       <ThemeToggle />
       <button
         id="nav-menu-btn"
@@ -48,8 +51,8 @@ const links = [
   </div>
 
   <ul id="nav-menu" class="nav-links mobile hidden">
-    {links.map(({ href, label }) => (
-      <li><a href={href}>{label}</a></li>
+    {links.map(({ href, key }) => (
+      <li><a href={href} data-i18n={key}>{t(key)}</a></li>
     ))}
   </ul>
 </nav>
