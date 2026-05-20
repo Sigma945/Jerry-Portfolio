@@ -1,0 +1,9 @@
+[
+  {
+    "id": "personal-site",
+    "title": "個人網站",
+    "description": "用 Astro 打造的作品集",
+    "tech": ["Astro", "Tailwind"],
+    "link": "https://sigma945.github.io/Jerry-Portfolio/"
+  }
+]
