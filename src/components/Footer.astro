@@ -1,0 +1,90 @@
+---
+import { site } from '../site';
+import { path } from '../routes';
+
+const links = [
+  { type: 'email' as const, href: `mailto:${site.social.email}`, label: site.social.email },
+  { type: 'github' as const, href: site.social.github, label: 'GitHub' },
+  { type: 'rss' as const, href: path(site.social.rss), label: 'RSS' },
+];
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <ul class="footer-links">
+      {links.map(({ type, href, label }) => (
+        <li>
+          <a href={href} class="footer-link" rel={type === 'github' ? 'me noopener' : undefined}>
+            {type === 'email' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="m3 7 9 6 9-6" />
+              </svg>
+            )}
+            {type === 'github' && (
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.8 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.8-1.5-3.8-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.7.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.7-5.8 7.7-10.9C23.5 5.7 18.3.5 12 .5z" />
+              </svg>
+            )}
+            {type === 'rss' && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 11a9 9 0 0 1 9 9" />
+                <path d="M4 4a16 16 0 0 1 16 16" />
+                <circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none" />
+              </svg>
+            )}
+            <span>{label}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="copy">© {new Date().getFullYear()} {site.name}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 96px;
+  }
+  .footer-inner {
+    padding-block: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .footer-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
+  }
+  .footer-link:hover {
+    color: var(--fg);
+  }
+  .footer-link svg {
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+  }
+  .copy {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted-2);
+    font-family: var(--font-mono);
+  }
+</style>
