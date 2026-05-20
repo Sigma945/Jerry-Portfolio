@@ -6,22 +6,82 @@ const projects = await getCollection('projects');
 ---
 
 <BaseLayout title="Projects — Jerry Chen">
-  <h1 class="text-3xl font-bold mb-6">Projects</h1>
+  <h1 class="page-title">Projects</h1>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <div class="grid">
     {projects.map(project => (
-      <article class="border border-gray-300 dark:border-gray-700 p-5 rounded-lg hover:border-gray-500 transition">
-        <h2 class="text-xl font-semibold">{project.data.title}</h2>
-        <p class="mt-2 text-gray-600 dark:text-gray-400">{project.data.description}</p>
+      <article class="card">
+        <h2>{project.data.title}</h2>
+        <p class="desc">{project.data.description}</p>
         {project.data.tech && (
-          <ul class="mt-3 flex flex-wrap gap-2 text-xs text-gray-600 dark:text-gray-400">
-            {project.data.tech.map(t => <li class="px-2 py-1 bg-gray-200 dark:bg-gray-800 rounded">{t}</li>)}
+          <ul class="tech">
+            {project.data.tech.map(t => <li>{t}</li>)}
           </ul>
         )}
         {project.data.link && (
-          <a href={project.data.link} class="text-blue-500 dark:text-blue-400 mt-4 inline-block">查看 →</a>
+          <a href={project.data.link} class="link">查看 →</a>
         )}
       </article>
     ))}
   </div>
 </BaseLayout>
+
+<style>
+  .page-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .card {
+    border: 1px solid var(--border-strong);
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    transition: border-color 0.15s;
+  }
+  .card:hover {
+    border-color: var(--muted-2);
+  }
+  .card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+  }
+  .desc {
+    margin-top: 0.5rem;
+    color: var(--muted-2);
+  }
+  .tech {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--muted-2);
+  }
+  .tech li {
+    background: var(--surface);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+  }
+  .link {
+    color: var(--accent);
+    margin-top: 1rem;
+    display: inline-block;
+    text-decoration: none;
+  }
+  .link:hover {
+    color: var(--accent-hover);
+  }
+</style>
