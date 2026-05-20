@@ -12,8 +12,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       我是一個專注於專案網站的開發者，喜歡用程式碼把想法變成可運作的成品。
     </p>
     <div class="actions">
-      <Button href={`${base}/projects`} variant="primary">查看作品</Button>
-      <Button href={`${base}/resume`} variant="ghost">我的履歷</Button>
+      <Button href={`${base}/projects`} variant="primary">
+        <span data-i18n="home.viewProjects">查看作品</span>
+      </Button>
+      <Button href={`${base}/resume`} variant="ghost">
+        <span data-i18n="home.viewResume">我的履歷</span>
+      </Button>
     </div>
   </section>
 </BaseLayout>
