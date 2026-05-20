@@ -1,10 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import PageTitle from '../components/PageTitle.astro';
 import { experience } from '../data/experience';
 ---
 
 <BaseLayout title="About">
-  <h1 class="page-title" data-i18n="page.about">關於</h1>
+  <PageTitle i18nKey="page.about">關於</PageTitle>
   <div class="prose">
     <p>嗨，我是 Jerry Chen，一名網頁全端工程師。</p>
     <p>我關注前端體驗、後端架構、以及如何用簡潔的方式把事情做完。</p>
@@ -41,11 +42,6 @@ import { experience } from '../data/experience';
 </BaseLayout>
 
 <style>
-  .page-title {
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin: 0 0 1.5rem;
-  }
   .prose {
     color: var(--muted);
     line-height: 1.7;

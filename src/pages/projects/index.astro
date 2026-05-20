@@ -2,12 +2,13 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Card from '../../components/Card.astro';
+import PageTitle from '../../components/PageTitle.astro';
 
 const projects = await getCollection('projects');
 ---
 
 <BaseLayout title="Projects">
-  <h1 class="page-title" data-i18n="page.projects">作品</h1>
+  <PageTitle i18nKey="page.projects">作品</PageTitle>
 
   <div class="grid">
     {projects.map(project => (
@@ -28,11 +29,6 @@ const projects = await getCollection('projects');
 </BaseLayout>
 
 <style>
-  .page-title {
-    font-size: 1.875rem;
-    font-weight: 700;
-    margin: 0 0 1.5rem;
-  }
   .grid {
     display: grid;
     grid-template-columns: 1fr;

@@ -1,0 +1,21 @@
+---
+import type { TKey } from '../i18n';
+
+interface Props {
+  i18nKey?: TKey;
+}
+
+const { i18nKey } = Astro.props;
+---
+
+<h1 class="page-title" data-i18n={i18nKey}>
+  <slot />
+</h1>
+
+<style>
+  .page-title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin: 0 0 1.5rem;
+  }
+</style>
