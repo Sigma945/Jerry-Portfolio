@@ -15,15 +15,61 @@ const links = [
 ---
 
 <nav class="border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur sticky top-0 z-10">
-  <div class="max-w-4xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+  <div class="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between gap-4">
     <a href={url('/')} class="font-bold text-gray-900 dark:text-white">Jerry Chen</a>
-    <div class="flex flex-wrap items-center gap-5 text-sm text-gray-600 dark:text-gray-300">
-      <ul class="flex flex-wrap gap-5">
-        {links.map(({ href, label }) => (
-          <li><a href={href} class="hover:text-gray-900 dark:hover:text-white">{label}</a></li>
-        ))}
-      </ul>
+
+    <ul class="hidden md:flex flex-wrap gap-5 text-sm text-gray-600 dark:text-gray-300">
+      {links.map(({ href, label }) => (
+        <li><a href={href} class="hover:text-gray-900 dark:hover:text-white">{label}</a></li>
+      ))}
+    </ul>
+
+    <div class="flex items-center gap-3">
       <ThemeToggle />
+      <button
+        id="nav-menu-btn"
+        type="button"
+        aria-controls="nav-menu"
+        aria-expanded="false"
+        aria-label="開啟選單"
+        class="md:hidden inline-flex items-center justify-center w-9 h-9 rounded text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800"
+      >
+        <svg id="nav-icon-open" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+        <svg id="nav-icon-close" class="w-5 h-5 hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="6" y1="6" x2="18" y2="18"/>
+          <line x1="6" y1="18" x2="18" y2="6"/>
+        </svg>
+      </button>
     </div>
   </div>
+
+  <ul
+    id="nav-menu"
+    class="md:hidden hidden border-t border-gray-200 dark:border-gray-800 px-6 py-3 space-y-2 text-sm text-gray-700 dark:text-gray-200"
+  >
+    {links.map(({ href, label }) => (
+      <li><a href={href} class="block py-1 hover:text-gray-900 dark:hover:text-white">{label}</a></li>
+    ))}
+  </ul>
 </nav>
+
+<script is:inline>
+  (() => {
+    const btn = document.getElementById('nav-menu-btn');
+    const menu = document.getElementById('nav-menu');
+    const iconOpen = document.getElementById('nav-icon-open');
+    const iconClose = document.getElementById('nav-icon-close');
+    if (!btn || !menu || !iconOpen || !iconClose) return;
+    btn.addEventListener('click', () => {
+      const open = menu.classList.toggle('hidden') === false;
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉選單' : '開啟選單');
+      iconOpen.classList.toggle('hidden', open);
+      iconClose.classList.toggle('hidden', !open);
+    });
+  })();
+</script>
