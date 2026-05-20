@@ -1,20 +1,20 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { path } from '../../routes';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<BaseLayout title="Blog — Jerry Chen">
+<BaseLayout title="Blog">
   <h1 class="page-title" data-i18n="page.blog">文章</h1>
 
   <ul class="posts">
     {posts.map(post => (
       <li class="post">
-        <a href={`${base}/blog/${post.id}`}>
+        <a href={path(`/blog/${post.id}`)}>
           <h2>{post.data.title}</h2>
           <p class="date">{post.data.date.toISOString().slice(0, 10)}</p>
           {post.data.description && <p class="desc">{post.data.description}</p>}

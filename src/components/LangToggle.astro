@@ -1,5 +1,9 @@
 ---
 import { translations } from '../i18n';
+import { path } from '../routes';
+
+const twFlagPath = path('/flags/tw.svg');
+const usFlagPath = path('/flags/us.svg');
 ---
 
 <button
@@ -7,12 +11,19 @@ import { translations } from '../i18n';
   type="button"
   aria-label="切換語言 / Toggle language"
   class="lang-toggle"
->Ch</button>
+><img class="lang-flag" src={twFlagPath} alt="" aria-hidden="true" /> Ch</button>
 
-<script is:inline define:vars={{ translations }}>
+<script is:inline define:vars={{ translations, twFlagPath, usFlagPath }}>
   (() => {
     const btn = document.getElementById('lang-toggle');
     if (!btn) return;
+
+    const getLabel = (lang) => {
+      if (lang === 'en') {
+        return `<img class="lang-flag" src="${usFlagPath}" alt="" aria-hidden="true" /> En`;
+      }
+      return `<img class="lang-flag" src="${twFlagPath}" alt="" aria-hidden="true" /> Ch`;
+    };
 
     const apply = (lang) => {
       document.documentElement.lang = lang === 'en' ? 'en' : 'zh-Hant';
@@ -22,7 +33,7 @@ import { translations } from '../i18n';
           el.textContent = translations[lang][k];
         }
       });
-      btn.textContent = lang === 'en' ? 'En' : 'Ch';
+      btn.innerHTML = getLabel(lang);
     };
 
     const initial = localStorage.getItem('lang') === 'en' ? 'en' : 'zh';
@@ -41,6 +52,7 @@ import { translations } from '../i18n';
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.25rem;
     min-width: 2.25rem;
     height: 1.5rem;
     padding: 0 0.5rem;
@@ -56,5 +68,11 @@ import { translations } from '../i18n';
   }
   .lang-toggle:hover {
     background: var(--surface);
+  }
+  .lang-flag {
+    width: 0.75rem;
+    height: 0.75rem;
+    flex: 0 0 auto;
+    border-radius: 2px;
   }
 </style>
