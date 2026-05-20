@@ -1,22 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Button from '../components/Button.astro';
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+import { routes } from '../routes';
+import { site } from '../site';
 ---
 
-<BaseLayout title="Jerry Chen — Home">
+<BaseLayout>
   <section class="hero">
-    <h1>Jerry Chen</h1>
-    <p class="tagline">Full-stack Developer</p>
+    <h1>{site.name}</h1>
+    <p class="tagline">{site.tagline}</p>
     <p class="bio">
-      我是一個專注於專案網站的開發者，喜歡用程式碼把想法變成可運作的成品。
+      我是一名專案網站的全端開發者，喜歡用程式碼把想法變成可運作的成品。
     </p>
     <div class="actions">
-      <Button href={`${base}/projects`} variant="primary">
+      <Button href={routes.projects.href} variant="primary">
         <span data-i18n="home.viewProjects">查看作品</span>
       </Button>
-      <Button href={`${base}/resume`} variant="ghost">
-        <span data-i18n="home.viewResume">我的履歷</span>
+      <Button href={routes.about.href} variant="ghost">
+        <span data-i18n="nav.about">關於</span>
       </Button>
     </div>
   </section>

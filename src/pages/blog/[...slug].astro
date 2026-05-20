@@ -14,7 +14,7 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<BaseLayout title={`${post.data.title} — Blog`}>
+<BaseLayout title={post.data.title}>
   <article>
     <h1>{post.data.title}</h1>
     <p class="date">{post.data.date.toISOString().slice(0, 10)}</p>

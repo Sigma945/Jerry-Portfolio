@@ -1,12 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { experience } from '../data/experience';
 ---
 
-<BaseLayout title="About — Jerry Chen">
+<BaseLayout title="About">
   <h1 class="page-title" data-i18n="page.about">關於</h1>
   <div class="prose">
-    <p>嗨，我是 Jerry，一名喜歡打造完整產品的工程師。</p>
+    <p>嗨，我是 Jerry Chen，一名網頁全端工程師。</p>
     <p>我關注前端體驗、後端架構、以及如何用簡潔的方式把事情做完。</p>
+    <p>目前主要使用 Vue3、Tailwind、TypeScript 等前端技術建構網站，也熟悉.net、C#、EF Core與資料庫工具。</p>
+    <p>過去的工作經歷涵蓋網站開發、前後端整合，與小型專案的規劃與實作。</p>
+    <p>開發過程中也積極使用各式AI作為輔助開發，提升專案執行效率</p>
+  </div>
+
+  <hr class="section-divider" />
+  <h2 class="section-title">實作專案技術</h2>
+  
+  <div class="table-wrap">
+    <table class="tech-table">
+      <thead>
+        <tr>
+          <th>專案</th>
+          <th>前端</th>
+          <th>後端</th>
+          <th>資料庫</th>
+        </tr>
+      </thead>
+      <tbody>
+        {experience.map(p => (
+          <tr>
+            <td>{p.name}</td>
+            <td>{p.frontend}</td>
+            <td>{p.backend}</td>
+            <td>{p.db}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
   </div>
 </BaseLayout>
 
@@ -22,5 +52,47 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
   .prose p + p {
     margin-top: 1rem;
+  }
+  .section-divider {
+    margin: 3rem 0 1rem;
+    border: 0;
+    border-top: 1px solid var(--border);
+  }
+  .section-title {
+    margin: 0 0 1rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--fg);
+  }
+  .table-wrap {
+    margin-top: 0;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+  }
+  .tech-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+  .tech-table th,
+  .tech-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .tech-table thead th {
+    background: var(--surface);
+    color: var(--fg);
+    font-weight: 600;
+  }
+  .tech-table tbody tr:last-child td {
+    border-bottom: none;
+  }
+  .tech-table tbody td {
+    color: var(--muted);
+  }
+  .tech-table tbody tr:hover td {
+    background: var(--surface);
   }
 </style>
