@@ -1,4 +1,5 @@
 name: Sync Notion Posts
+run-name: Sync Notion · ${{ github.run_started_at }} · ${{ github.event_name }}
 
 on:
   workflow_dispatch:
