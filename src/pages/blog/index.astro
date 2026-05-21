@@ -2,12 +2,19 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageTitle from '../../components/PageTitle.astro';
+import BlogSidebar from '../../components/BlogSidebar.astro';
 import { path } from '../../routes';
 import { formatDate } from '../../utils/date';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
 );
+
+const sidebarPosts = posts.map(p => ({
+  id: p.id,
+  title: p.data.title,
+  date: p.data.date,
+}));
 ---
 
 <BaseLayout title="Blog">
@@ -15,7 +22,7 @@ const posts = (await getCollection('blog')).sort(
 
   <ul class="posts">
     {posts.map(post => (
-      <li class="post">
+      <li class="post" id={`post-${post.id}`}>
         <a href={path(`/blog/${post.id}`)}>
           <h2>{post.data.title}</h2>
           <p class="date">{formatDate(post.data.date)}</p>
@@ -24,6 +31,8 @@ const posts = (await getCollection('blog')).sort(
       </li>
     ))}
   </ul>
+
+  <BlogSidebar posts={sidebarPosts} />
 </BaseLayout>
 
 <style>
@@ -36,6 +45,7 @@ const posts = (await getCollection('blog')).sort(
   }
   .post {
     border-bottom: 1px solid var(--border);
+    scroll-margin-top: 88px;
   }
   .post a {
     display: block;
