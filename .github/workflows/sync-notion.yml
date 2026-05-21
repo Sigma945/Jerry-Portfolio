@@ -2,9 +2,9 @@ name: Sync Notion Posts
 
 on:
   workflow_dispatch:
-  # 啟用自動同步可取消下面註解（每 30 分鐘執行一次）
-  # schedule:
-  #   - cron: '*/30 * * * *'
+  schedule:
+    # 每月 1 號與 15 號 00:00 UTC（約每兩週一次）
+    - cron: '0 0 1,15 * *'
 
 permissions:
   contents: write

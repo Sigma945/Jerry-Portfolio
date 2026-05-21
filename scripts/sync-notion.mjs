@@ -70,13 +70,12 @@ const downloadImages = async (markdown, slug) => {
   return result;
 };
 
-const queryPublishedPages = async () => {
+const queryAllPages = async () => {
   const pages = [];
   let cursor;
   do {
     const res = await notion.databases.query({
       database_id: DATABASE_ID,
-      filter: { property: 'Status', select: { equals: 'Published' } },
       start_cursor: cursor,
     });
     pages.push(...res.results);
@@ -85,10 +84,30 @@ const queryPublishedPages = async () => {
   return pages;
 };
 
+const removeIfExists = async (filepath) => {
+  try {
+    await fs.unlink(filepath);
+    return true;
+  } catch (err) {
+    if (err.code === 'ENOENT') return false;
+    throw err;
+  }
+};
+
+const removeDirIfExists = async (dirpath) => {
+  try {
+    await fs.rm(dirpath, { recursive: true });
+    return true;
+  } catch (err) {
+    if (err.code === 'ENOENT') return false;
+    throw err;
+  }
+};
+
 const run = async () => {
-  console.log('Querying Notion for Published posts...');
-  const pages = await queryPublishedPages();
-  console.log(`Found ${pages.length} page(s)\n`);
+  console.log('Querying Notion database...');
+  const pages = await queryAllPages();
+  console.log(`Found ${pages.length} page(s) total\n`);
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
 
@@ -96,6 +115,7 @@ const run = async () => {
     const props = page.properties;
     const title = plainText(props.Title);
     const slug = plainText(props.Slug).trim();
+    const status = props.Status?.select?.name;
     const date = props.Date?.date?.start;
     const description = plainText(props.Description);
     const tags = (props.Tags?.multi_select ?? []).map((t) => t.name);
@@ -104,6 +124,19 @@ const run = async () => {
       console.warn(`  ! Skipping "${title}": missing Slug property`);
       continue;
     }
+
+    const filepath = path.join(OUTPUT_DIR, `${slug}.md`);
+    const imagesDir = path.join(IMAGES_DIR, slug);
+
+    if (status !== 'Published') {
+      const fileRemoved = await removeIfExists(filepath);
+      const imagesRemoved = await removeDirIfExists(imagesDir);
+      if (fileRemoved || imagesRemoved) {
+        console.log(`✗ Unpublished: ${slug}.md  (status=${status ?? 'none'})`);
+      }
+      continue;
+    }
+
     if (!date) {
       console.warn(`  ! Skipping "${title}": missing Date property`);
       continue;
@@ -117,7 +150,7 @@ const run = async () => {
     const md = n2m.toMarkdownString(mdBlocks).parent ?? '';
     const finalMd = await downloadImages(md, slug);
     const fm = buildFrontmatter({ title, description, date, tags });
-    await fs.writeFile(path.join(OUTPUT_DIR, `${slug}.md`), `${fm}\n\n${finalMd}\n`);
+    await fs.writeFile(filepath, `${fm}\n\n${finalMd}\n`);
   }
 
   console.log('\nDone.');
