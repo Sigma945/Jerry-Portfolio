@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageTitle from '../components/PageTitle.astro';
-import { experience } from '../data/experience';
+import { experience, commonStack } from '../data/experience';
 ---
 
 <BaseLayout title="About">
@@ -16,7 +16,22 @@ import { experience } from '../data/experience';
 
   <hr class="section-divider" />
   <h2 class="section-title">實作專案技術</h2>
-  
+
+  <p class="baseline">
+    <span class="baseline-label">專案部屬</span>
+    <span class="baseline-value">IIS建置</span>
+  </p>
+
+  <p class="baseline">
+    <span class="baseline-label">後端共用基底</span>
+    <span class="baseline-value">{commonStack.backend}</span>
+  </p>
+
+  <p class="baseline">
+    <span class="baseline-label">架構模式</span>
+    <span class="baseline-value">MVC（員工訓練系統採 DDD + Clean Architecture）</span>
+  </p>
+
   <div class="table-wrap">
     <table class="tech-table">
       <thead>
@@ -60,11 +75,33 @@ import { experience } from '../data/experience';
     border-top: 1px solid var(--border);
   }
   .section-title {
-    margin: 0 0 24px;
+    margin: 0 0 16px;
     font-size: 18px;
     font-weight: 600;
     letter-spacing: -0.01em;
     color: var(--fg);
+  }
+  .baseline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 8px 12px;
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface);
+    font-size: 13px;
+  }
+  .baseline-label {
+    color: var(--muted-2);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .baseline-value {
+    color: var(--muted);
   }
   .table-wrap {
     overflow-x: auto;
