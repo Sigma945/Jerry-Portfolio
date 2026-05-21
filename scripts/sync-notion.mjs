@@ -25,14 +25,46 @@ const plainText = (prop) => {
 
 const safeJson = (v) => JSON.stringify(v ?? '');
 
-const buildFrontmatter = ({ title, description, date, tags }) => {
+const buildFrontmatter = ({ title, description, date, tags, notionId }) => {
   const lines = ['---'];
   lines.push(`title: ${safeJson(title)}`);
   if (description) lines.push(`description: ${safeJson(description)}`);
   lines.push(`date: ${date}`);
   if (tags?.length) lines.push(`tags: ${JSON.stringify(tags)}`);
+  if (notionId) lines.push(`notion_id: ${JSON.stringify(notionId)}`);
   lines.push('---');
   return lines.join('\n');
+};
+
+const readNotionIdFromFile = async (filepath) => {
+  try {
+    const content = await fs.readFile(filepath, 'utf-8');
+    const fmMatch = content.match(/^---\s*\n([\s\S]*?)\n---/);
+    if (!fmMatch) return null;
+    const idMatch = fmMatch[1].match(/^notion_id:\s*["']?([^"'\n]+)["']?\s*$/m);
+    return idMatch ? idMatch[1] : null;
+  } catch {
+    return null;
+  }
+};
+
+const buildExistingIndex = async () => {
+  const index = {};
+  let files = [];
+  try {
+    files = await fs.readdir(OUTPUT_DIR);
+  } catch {
+    return index;
+  }
+  for (const filename of files) {
+    if (!filename.endsWith('.md')) continue;
+    const filepath = path.join(OUTPUT_DIR, filename);
+    const pageId = await readNotionIdFromFile(filepath);
+    if (pageId) {
+      index[pageId] = { filepath, slug: filename.replace(/\.md$/, '') };
+    }
+  }
+  return index;
 };
 
 const guessExt = (url) => {
@@ -110,8 +142,10 @@ const run = async () => {
   console.log(`Found ${pages.length} page(s) total\n`);
 
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
+  const existing = await buildExistingIndex();
 
   for (const page of pages) {
+    const pageId = page.id;
     const props = page.properties;
     const title = plainText(props.Title);
     const slug = plainText(props.Slug).trim();
@@ -119,24 +153,21 @@ const run = async () => {
     const date = props.Date?.date?.start;
     const description = plainText(props.Description);
     const tags = (props.Tags?.multi_select ?? []).map((t) => t.name);
+    const prev = existing[pageId];
+
+    if (status !== 'Published') {
+      if (prev) {
+        await removeIfExists(prev.filepath);
+        await removeDirIfExists(path.join(IMAGES_DIR, prev.slug));
+        console.log(`✗ Unpublished: ${prev.slug}.md  (status=${status ?? 'none'})`);
+      }
+      continue;
+    }
 
     if (!slug) {
       console.warn(`  ! Skipping "${title}": missing Slug property`);
       continue;
     }
-
-    const filepath = path.join(OUTPUT_DIR, `${slug}.md`);
-    const imagesDir = path.join(IMAGES_DIR, slug);
-
-    if (status !== 'Published') {
-      const fileRemoved = await removeIfExists(filepath);
-      const imagesRemoved = await removeDirIfExists(imagesDir);
-      if (fileRemoved || imagesRemoved) {
-        console.log(`✗ Unpublished: ${slug}.md  (status=${status ?? 'none'})`);
-      }
-      continue;
-    }
-
     if (!date) {
       console.warn(`  ! Skipping "${title}": missing Date property`);
       continue;
@@ -145,11 +176,18 @@ const run = async () => {
       console.warn(`  ! "${title}" has non-standard slug "${slug}" — use only a-z, 0-9, -`);
     }
 
+    if (prev && prev.slug !== slug) {
+      await removeIfExists(prev.filepath);
+      await removeDirIfExists(path.join(IMAGES_DIR, prev.slug));
+      console.log(`↻ Renamed: ${prev.slug}.md → ${slug}.md`);
+    }
+
+    const filepath = path.join(OUTPUT_DIR, `${slug}.md`);
     console.log(`→ ${slug}.md  (${title})`);
-    const mdBlocks = await n2m.pageToMarkdown(page.id);
+    const mdBlocks = await n2m.pageToMarkdown(pageId);
     const md = n2m.toMarkdownString(mdBlocks).parent ?? '';
     const finalMd = await downloadImages(md, slug);
-    const fm = buildFrontmatter({ title, description, date, tags });
+    const fm = buildFrontmatter({ title, description, date, tags, notionId: pageId });
     await fs.writeFile(filepath, `${fm}\n\n${finalMd}\n`);
   }
 

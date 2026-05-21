@@ -20,6 +20,7 @@ const blog = defineCollection({
     description: z.string().optional(),
     date: z.date(),
     tags: z.array(z.string()).optional(),
+    notion_id: z.string().optional(),
   }),
 });
 
