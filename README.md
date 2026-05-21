@@ -22,16 +22,16 @@
 
 ---
 
-## 技術棧
+## 技術
 
-| 類別 | 技術 |
-| ---- | ---- |
-| 框架 | Astro 6 |
-| 樣式 | Scoped CSS + CSS Variables（少量 Tailwind v4 utilities） |
-| 內容 | Astro Content Collections（Blog md / Projects json） |
-| 字型 | Geist + Geist Mono（透過 Google Fonts） |
-| 自動化 | GitHub Actions（Deploy / Lint / Notion Sync） |
-| 部署 | GitHub Pages |
+| 類別   | 技術                                                     |
+| ------ | -------------------------------------------------------- |
+| 框架   | Astro 6                                                  |
+| 樣式   | Scoped CSS + CSS Variables（少量 Tailwind v4 utilities） |
+| 內容   | Astro Content Collections（Blog md / Projects json）     |
+| 字型   | Geist + Geist Mono（透過 Google Fonts）                  |
+| 自動化 | GitHub Actions（Deploy / Lint / Notion Sync）            |
+| 部署   | GitHub Pages                                             |
 
 ---
 
@@ -106,15 +106,13 @@ Notion (Status=Published) → sync script → auto-commit → deploy → site
 
 ### Notion Database 必要欄位
 
-| Property | Type | 必填 | 說明 |
-| -------- | ---- | ---- | ---- |
-| Title | Title | ✓ | 文章標題 |
-| Slug | Text | ✓ | 檔名 / URL（`a-z 0-9 -`） |
-| Date | Date | ✓ | 發佈日期 |
-| Status | Select | ✓ | `Draft` / `Published` / `Archived` |
-| Description | Text | – | 摘要 |
-| Tags | Multi-select | – | 標籤 |
-| Cover | Files & media | – | 封面圖（保留欄位） |
+| Property    | Type   | 必填 | 說明                               |
+| ----------- | ------ | ---- | ---------------------------------- |
+| Title       | Title  | ✓    | 文章標題                           |
+| Slug        | Text   | ✓    | 檔名 / URL（`a-z 0-9 -`）          |
+| Date        | Date   | ✓    | 發佈日期                           |
+| Status      | Select | ✓    | `Draft` / `Published` / `Archived` |
+| Description | Text   | –    | 摘要                               |
 
 ### 行為
 
@@ -144,12 +142,12 @@ npm run sync
 
 ## CI/CD
 
-| Workflow | 觸發 | 用途 |
-| -------- | ---- | ---- |
-| `deploy.yml` | push to main / sync 完成 / 手動 | Lint → Build → Deploy 到 GitHub Pages |
-| `sync-notion.yml` | 排程（每兩週）/ 手動 | 從 Notion 拉文章並 commit |
+| Workflow          | 觸發                            | 用途                                  |
+| ----------------- | ------------------------------- | ------------------------------------- |
+| `deploy.yml`      | push to main / sync 完成 / 手動 | Lint → Build → Deploy 到 GitHub Pages |
+| `sync-notion.yml` | 排程（每兩週）/ 手動            | 從 Notion 拉文章並 commit             |
 
-Sync 完成後會透過 `workflow_run` 事件鏈式觸發 deploy（GitHub 對 `GITHUB_TOKEN` push 有迴圈防護，需要顯式串接）。
+Sync 完成後會透過 `workflow_run` 事件鏈式觸發 deploy
 
 ---
 
