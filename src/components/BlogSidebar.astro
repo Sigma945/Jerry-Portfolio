@@ -1,0 +1,182 @@
+---
+import IconMenu from './icons/IconMenu.astro';
+import IconClose from './icons/IconClose.astro';
+import { formatDate } from '../utils/date';
+
+interface PostRef {
+  id: string;
+  title: string;
+  date: Date;
+}
+
+interface Props {
+  posts: PostRef[];
+}
+
+const { posts } = Astro.props;
+---
+
+<button
+  id="blog-sidebar-toggle"
+  type="button"
+  class="toggle"
+  aria-controls="blog-sidebar"
+  aria-expanded="false"
+  aria-label="開啟文章導覽"
+>
+  <IconMenu id="blog-sidebar-icon-open" />
+  <IconClose id="blog-sidebar-icon-close" class="hidden" />
+</button>
+
+<div id="blog-sidebar-backdrop" class="backdrop hidden" aria-hidden="true"></div>
+
+<aside id="blog-sidebar" class="sidebar hidden" aria-label="文章導覽">
+  <div class="sidebar-header">文章列表</div>
+  <ul class="sidebar-list">
+    {posts.map(post => (
+      <li>
+        <a href={`#post-${post.id}`} class="sidebar-link">
+          <span class="sidebar-title">{post.title}</span>
+          <span class="sidebar-date">{formatDate(post.date)}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</aside>
+
+<script is:inline>
+  (() => {
+    const btn = document.getElementById('blog-sidebar-toggle');
+    const panel = document.getElementById('blog-sidebar');
+    const backdrop = document.getElementById('blog-sidebar-backdrop');
+    const iconOpen = document.getElementById('blog-sidebar-icon-open');
+    const iconClose = document.getElementById('blog-sidebar-icon-close');
+    if (!btn || !panel || !backdrop || !iconOpen || !iconClose) return;
+
+    const setOpen = (open) => {
+      panel.classList.toggle('hidden', !open);
+      backdrop.classList.toggle('hidden', !open);
+      iconOpen.classList.toggle('hidden', open);
+      iconClose.classList.toggle('hidden', !open);
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '關閉文章導覽' : '開啟文章導覽');
+      document.body.style.overflow = open ? 'hidden' : '';
+    };
+
+    btn.addEventListener('click', () => setOpen(panel.classList.contains('hidden')));
+    backdrop.addEventListener('click', () => setOpen(false));
+
+    panel.addEventListener('click', (e) => {
+      const a = e.target.closest('a[href^="#"]');
+      if (a) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !panel.classList.contains('hidden')) setOpen(false);
+    });
+  })();
+</script>
+
+<style>
+  .toggle {
+    position: fixed;
+    top: 88px;
+    right: 16px;
+    z-index: 9;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: var(--fg);
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .toggle:hover {
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+  }
+  .backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 11;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 1;
+    transition: opacity 0.2s ease;
+  }
+  .backdrop.hidden {
+    opacity: 0;
+    pointer-events: none;
+    display: block;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 12;
+    width: min(320px, 85vw);
+    background: var(--bg);
+    border-left: 1px solid var(--border);
+    transform: translateX(0);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .sidebar.hidden {
+    transform: translateX(100%);
+    display: flex;
+  }
+  .sidebar-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-2);
+  }
+  .sidebar-list {
+    list-style: none;
+    margin: 0;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-link {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 24px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .sidebar-link:hover {
+    background: var(--surface);
+    color: var(--fg);
+  }
+  .sidebar-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg);
+  }
+  .sidebar-date {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--muted-2);
+    letter-spacing: 0.02em;
+  }
+  .hidden {
+    /* component-level toggle marker; specific rules above */
+  }
+</style>
