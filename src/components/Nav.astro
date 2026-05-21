@@ -1,6 +1,10 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
 import LangToggle from './LangToggle.astro';
+import IconGithub from './icons/IconGithub.astro';
+import IconRss from './icons/IconRss.astro';
+import IconMenu from './icons/IconMenu.astro';
+import IconClose from './icons/IconClose.astro';
 import { t } from '../i18n';
 import { routes, navOrder, path } from '../routes';
 import { site } from '../site';
@@ -20,16 +24,10 @@ const links = navOrder.map(k => routes[k]);
 
     <div class="nav-actions">
       <a href={site.social.github} class="icon-link" aria-label="GitHub" rel="me noopener" target="_blank">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 .5C5.7.5.5 5.7.5 12c0 5.1 3.3 9.4 7.8 10.9.6.1.8-.2.8-.6v-2c-3.2.7-3.8-1.5-3.8-1.5-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.8 2.7 1.3 3.4 1 .1-.7.4-1.3.7-1.6-2.6-.3-5.3-1.3-5.3-5.8 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.3 1.2.9-.3 2-.4 3-.4s2 .1 3 .4c2.3-1.5 3.3-1.2 3.3-1.2.6 1.6.2 2.8.1 3.1.8.8 1.2 1.8 1.2 3.1 0 4.5-2.7 5.5-5.3 5.8.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6 4.5-1.5 7.7-5.8 7.7-10.9C23.5 5.7 18.3.5 12 .5z" />
-        </svg>
+        <IconGithub />
       </a>
       <a href={path(site.social.rss)} class="icon-link" aria-label="RSS">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M4 11a9 9 0 0 1 9 9" />
-          <path d="M4 4a16 16 0 0 1 16 16" />
-          <circle cx="5" cy="19" r="1.5" fill="currentColor" stroke="none" />
-        </svg>
+        <IconRss />
       </a>
       <LangToggle />
       <ThemeToggle />
@@ -41,15 +39,8 @@ const links = navOrder.map(k => routes[k]);
         aria-label="開啟選單"
         class="menu-btn"
       >
-        <svg id="nav-icon-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="3" y1="6" x2="21" y2="6"/>
-          <line x1="3" y1="12" x2="21" y2="12"/>
-          <line x1="3" y1="18" x2="21" y2="18"/>
-        </svg>
-        <svg id="nav-icon-close" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="6" y1="6" x2="18" y2="18"/>
-          <line x1="6" y1="18" x2="18" y2="6"/>
-        </svg>
+        <IconMenu id="nav-icon-open" />
+        <IconClose id="nav-icon-close" class="hidden" />
       </button>
     </div>
   </div>

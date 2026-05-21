@@ -1,0 +1,28 @@
+---
+interface Props {
+  class?: string;
+  id?: string;
+  'aria-label'?: string;
+}
+const { class: className, id, 'aria-label': ariaLabel } = Astro.props;
+const decorative = !ariaLabel;
+---
+
+<svg
+  viewBox="0 0 24 24"
+  width="1em"
+  height="1em"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  id={id}
+  aria-hidden={decorative || undefined}
+  role={decorative ? undefined : 'img'}
+  aria-label={ariaLabel}
+>
+  <line x1="6" y1="6" x2="18" y2="18" />
+  <line x1="6" y1="18" x2="18" y2="6" />
+</svg>
