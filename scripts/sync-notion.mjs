@@ -50,7 +50,7 @@ const readNotionIdFromFile = async (filepath) => {
 
 const buildExistingIndex = async () => {
   const index = {};
-  let files = [];
+  let files;
   try {
     files = await fs.readdir(OUTPUT_DIR);
   } catch {
