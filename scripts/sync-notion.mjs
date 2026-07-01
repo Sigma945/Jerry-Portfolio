@@ -159,6 +159,19 @@ const run = async () => {
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
   const existing = await buildExistingIndex();
 
+  // Guard: duplicate slugs collide on filename + URL, silently clobbering each other. Fail loud.
+  const bySlug = {};
+  for (const page of pages) {
+    if (page.properties.Status?.select?.name !== 'Published') continue;
+    const slug = plainText(page.properties.Slug).trim();
+    if (slug) (bySlug[slug] ??= []).push(plainText(page.properties.Title));
+  }
+  const dups = Object.entries(bySlug).filter(([, titles]) => titles.length > 1);
+  if (dups.length) {
+    const msg = dups.map(([slug, titles]) => `  "${slug}" ← ${titles.join(', ')}`).join('\n');
+    throw new Error(`Duplicate slug(s) among Published pages — fix in Notion:\n${msg}`);
+  }
+
   for (const page of pages) {
     const pageId = page.id;
     const props = page.properties;
@@ -204,6 +217,15 @@ const run = async () => {
     const finalMd = await downloadImages(md, slug);
     const fm = buildFrontmatter({ title, description, date, tags, notionId: pageId });
     await fs.writeFile(filepath, `${fm}\n\n${finalMd}\n`);
+  }
+
+  // Remove orphans: local files whose Notion page no longer exists (deleted, not just unpublished)
+  const livePageIds = new Set(pages.map((p) => p.id));
+  for (const [pageId, prev] of Object.entries(existing)) {
+    if (livePageIds.has(pageId)) continue;
+    await removeIfExists(prev.filepath);
+    await removeDirIfExists(path.join(IMAGES_DIR, prev.slug));
+    console.log(`✗ Deleted from Notion: ${prev.slug}.md`);
   }
 
   console.log('\nDone.');
