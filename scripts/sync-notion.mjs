@@ -17,6 +17,19 @@ if (!NOTION_TOKEN || !DATABASE_ID) {
 const notion = new Client({ auth: NOTION_TOKEN });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+// ponytail: fixed 3 tries / linear backoff; bump if Notion flakiness gets worse
+const withRetry = async (fn, label, tries = 3) => {
+  for (let i = 1; ; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      if (i >= tries) throw err;
+      console.warn(`  ! ${label} failed (${err.code ?? err.message}), retry ${i}/${tries - 1}...`);
+      await new Promise((r) => setTimeout(r, 1000 * i));
+    }
+  }
+};
+
 const plainText = (prop) => {
   if (!prop) return '';
   const arr = prop.title ?? prop.rich_text ?? [];
@@ -106,10 +119,10 @@ const queryAllPages = async () => {
   const pages = [];
   let cursor;
   do {
-    const res = await notion.databases.query({
-      database_id: DATABASE_ID,
-      start_cursor: cursor,
-    });
+    const res = await withRetry(
+      () => notion.databases.query({ database_id: DATABASE_ID, start_cursor: cursor }),
+      'database query',
+    );
     pages.push(...res.results);
     cursor = res.has_more ? res.next_cursor : undefined;
   } while (cursor);
@@ -184,7 +197,7 @@ const run = async () => {
 
     const filepath = path.join(OUTPUT_DIR, `${slug}.md`);
     console.log(`→ ${slug}.md  (${title})`);
-    const mdBlocks = await n2m.pageToMarkdown(pageId);
+    const mdBlocks = await withRetry(() => n2m.pageToMarkdown(pageId), `pageToMarkdown ${slug}`);
     const md = n2m.toMarkdownString(mdBlocks).parent ?? '';
     const finalMd = await downloadImages(md, slug);
     const fm = buildFrontmatter({ title, description, date, tags, notionId: pageId });
