@@ -9,7 +9,7 @@ notion_id: "3769698a-84a3-80a0-9d7d-f90930a3430e"
 ## **在安裝過程遇到找不到Microsoft OLE DB Driver for SQL Server 錯誤**
 
 
-![image.png](/images/blog/Method/01.png)
+![image.png](/images/blog/method1/01.png)
 
 
 ### 有兩種情況
@@ -32,7 +32,7 @@ notion_id: "3769698a-84a3-80a0-9d7d-f90930a3430e"
 ## **在安裝過程找不到指定路徑的錯誤**
 
 
-![image.png](/images/blog/Method/02.png)
+![image.png](/images/blog/method1/02.png)
 
 
 是殘留環境的設定導致的
@@ -50,7 +50,7 @@ notion_id: "3769698a-84a3-80a0-9d7d-f90930a3430e"
 接下來到特徵選取時只選擇資料庫引擎服務
 
 
-![image.png](/images/blog/Method/03.png)
+![image.png](/images/blog/method1/03.png)
 
 
 並且執行個體組態選擇預設即可(通常沒安裝過會幫你設為MSSQLSERVER)
