@@ -14,7 +14,9 @@ if (!NOTION_TOKEN || !DATABASE_ID) {
   process.exit(1);
 }
 
-const notion = new Client({ auth: NOTION_TOKEN });
+// Use Node's native fetch (undici); the client's bundled node-fetch throws
+// ERR_STREAM_PREMATURE_CLOSE decompressing gzip responses in CI.
+const notion = new Client({ auth: NOTION_TOKEN, fetch: (...args) => fetch(...args) });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
 // ponytail: fixed 3 tries / linear backoff; bump if Notion flakiness gets worse
